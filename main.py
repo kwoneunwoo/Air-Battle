@@ -11,6 +11,7 @@ os.chdir(os.path.dirname(__file__))
 pygame.init()
 
 # FPS 세팅
+frame_rate = 60
 clock = pygame.time.Clock()
 
 # 화면 크기 세팅
@@ -145,7 +146,7 @@ class StartScreen:
     def run(self):
         running = True
         while running:
-            clock.tick(60)
+            clock.tick(frame_rate)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     quit()
@@ -197,7 +198,7 @@ class GameScreen:
     def run(self):
         running = True
         while running:
-            fps = clock.tick(60)
+            fps = clock.tick(frame_rate)
             # 이벤트 발생시 가져오기
             for event in pygame.event.get():
                 # 끄기 버튼 누를시 끄기
@@ -331,7 +332,7 @@ class EndingScreen:
     def run(self):
         running = True
         while running:
-            clock.tick(60)
+            clock.tick(frame_rate)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     quit()
