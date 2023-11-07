@@ -120,6 +120,7 @@ explode = Image()
 explode.load_image('images/explode.png')
 explode.change_size(100, 100)
 explode.is_show = False
+explode.count = 0
 
 # 총알 이미지 로드
 bullet = Image()
@@ -153,14 +154,8 @@ class StartScreen:
                     if event.key == pygame.K_SPACE:
                         running = False
 
-            screen.fill((0,0,0))
 
-            # text = self.font.render('TO START THE GAME', True, (200, 0, 200))
-            # text.x = screen_width/2 - text.get_width()/2+3
-            # text.y = screen_height/2 - text.get_height()-20+3
-            # screen.blit(text, (text.x, text.y))
-            # text.set_colorkey((255, 255, 255))
-            # screen.blit(text, (text.x, text.y))
+            screen.fill((0,0,0))
 
             text = self.font.render('TO START THE GAME', True, (200,0,200))
             screen.blit(text, (screen_width/2-text.get_width()/2+3, screen_height/2-text.get_height()-20+3))
@@ -332,8 +327,11 @@ class GameScreen:
             self.write_text()
             self.show_health()
             if explode.is_show:
-                explode.is_show = False
+                explode.count += 1
                 explode.show()
+                if explode.count >= frame_rate/10:
+                    explode.count = 0
+                    explode.is_show = False
 
             # 지정한 위치 업데이트
             pygame.display.update()
