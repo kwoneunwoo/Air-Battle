@@ -76,15 +76,15 @@ background_2.flip_image(False, True)
 # 두번째 배경 좌표: 화면 밖 위쪽
 background_2.y = -background_2.height
 
-# 구름 이미지들 로드
+# 구름 이미지 로드 (1)
 cloud_1 = Image()
 cloud_1.load_image('images/cloud-1.png')
 cloud_1.change_size(400, 191)
-
+# 구름 이미지 로드 (2)
 cloud_2 = Image()
 cloud_2.load_image('images/cloud-2.png')
 cloud_2.change_size(400, 400)
-
+# 구름 이미지 로드 (3)
 cloud_3 = Image()
 cloud_3.load_image('images/cloud-3.png')
 cloud_3.change_size(400, 400)
@@ -188,16 +188,19 @@ class GameScreen:
         self.used_bullet = 0
         self.crashed_missile = 0
     
+    # 정보(글자) 작성 함수
     def write_text(self):
         text_1 = self.font.render(f'Used bullet: {self.used_bullet}', True, (0,0,0))
         screen.blit(text_1, (3,0))
         text_2 = self.font.render(f'Crashed missile: {self.crashed_missile}', True, (0,0,0))
         screen.blit(text_2, (3,text_1.get_height()))
     
+    # 생명력 잃기
     def lost_health(self):
         self.health -= 1
         ending_sound.play()
 
+    # 생명력 화면에 나타내기
     def show_health(self):
         remaining_health = filled_heart.health-self.health
         if remaining_health == filled_heart.health:
@@ -214,6 +217,7 @@ class GameScreen:
                 filled_heart.y = filled_heart.xy_list[i][1]
                 filled_heart.show()
 
+    # 구름 랜덤으로 하나 선택 & 그리기
     def show_cloud(self, fps: int):
         if self.cloud == None or self.cloud.y >= screen_height:
             self.cloud = random.choice([cloud_1, cloud_2, cloud_3])
@@ -302,9 +306,11 @@ class GameScreen:
             # 유저 충돌 감지
             if user.get_rect().colliderect(missile.get_rect()):
                 self.lost_health()
+                # 폭발 이미지 위치 조정
                 explode.is_show = True
                 explode.x = user.x + user.width/2 - explode.width/2
                 explode.y = user.y - explode.height/2
+                # 미사일 다시 내려오기
                 missile.y = -missile.height
                 missile.x = random.randint(0, screen_width - missile.width)
 
@@ -315,9 +321,11 @@ class GameScreen:
                 bullet.y = bullet.xy_list[i][1]
                 if missile.get_rect().colliderect(bullet.get_rect()):
                     delete_list.append(i)
+                    # 폭발 이미지 위치 조정
                     explode.is_show = True
                     explode.x = missile.x + missile.width/2 - explode.width/2
                     explode.y = missile.y + missile.height - explode.height/2
+                    # 미사일 다시 내려오기
                     missile.x = random.randint(0, screen_width - missile.width)
                     missile.y = -missile.height
 
@@ -331,6 +339,7 @@ class GameScreen:
             background_1.show()
             background_2.show()
             self.show_cloud(fps)
+            # 좌표 리스트로 총알 그리기
             for i in range(len(bullet.xy_list)):
                 bullet.x = bullet.xy_list[i][0]
                 bullet.y = bullet.xy_list[i][1]
@@ -339,6 +348,7 @@ class GameScreen:
             user.show()
             self.write_text()
             self.show_health()
+            # 0.1초동안 폭발 이미지 표시
             if explode.is_show:
                 explode.count += 1
                 explode.show()
