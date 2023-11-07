@@ -15,7 +15,7 @@ clock = pygame.time.Clock()
 
 # 화면 크기 세팅
 screen_width = 480
-screen_height = 640
+screen_height = 700#640
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # 화면 제목 세팅
@@ -81,7 +81,20 @@ background_2.y = -background_2.height
 # cloud.change_size(400, 191)
 # cloud.img.set_alpha(128)
 
-# filled_heart = Image()
+# 채워진 생명 이미지 로드
+filled_heart = Image()
+filled_heart.load_image('images/filled-heart.png')
+filled_heart.change_size(50, 50)
+filled_heart.xy_list = [
+    (screen_width-filled_heart.width, 0),
+    (screen_width-filled_heart.width*2, 0),
+    (screen_width-filled_heart.width*3, 0)
+    ]
+
+# 비워진 생명 이미지 로드
+empty_heart = Image()
+empty_heart.load_image('images/empty-heart.png')
+empty_heart.change_size(50, 50)
 
 # 비행기 이미지 로드
 user = Image()
@@ -101,6 +114,7 @@ missile.change_size(60, 226)
 # 미사일 좌표: 중앙 최상단
 missile.x = screen_width/2 - missile.width/2
 missile.y = -missile.height
+
 
 # 총알 이미지 로드
 bullet = Image()
@@ -167,8 +181,11 @@ class GameScreen:
         text_2 = self.font.render(f'Crashed missile: {self.crashed_missile}', True, (0,0,0))
         screen.blit(text_2, (3,text_1.get_height()))
 
-    # def show_health(self):
-
+    def show_health(self):
+        for i in range(len(filled_heart.xy_list)):
+            filled_heart.x = filled_heart.xy_list[i][0]
+            filled_heart.y = filled_heart.xy_list[i][1]
+            filled_heart.show()
 
     def run(self):
         running = True
@@ -284,6 +301,7 @@ class GameScreen:
             missile.show()
             user.show()
             self.write_text()
+            self.show_health()
 
 
             # 지정한 위치 업데이트
