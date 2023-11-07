@@ -85,17 +85,16 @@ background_2.y = -background_2.height
 # 채워진 생명 이미지 로드
 filled_heart = Image()
 filled_heart.load_image('images/filled-heart.png')
-filled_heart.change_size(50, 50)
-filled_heart.xy_list = [
-    (screen_width-filled_heart.width, 0),
-    (screen_width-filled_heart.width*2, 0),
-    (screen_width-filled_heart.width*3, 0)
-    ]
+filled_heart.change_size(40, 40)
+filled_heart.health = 3
+filled_heart.xy_list = []
+for i in range(1, filled_heart.health+1):
+    filled_heart.xy_list.append((screen_width-filled_heart.width*i-10*i, 10))
 
 # 비워진 생명 이미지 로드
 empty_heart = Image()
 empty_heart.load_image('images/empty-heart.png')
-empty_heart.change_size(50, 50)
+empty_heart.change_size(40, 40)
 
 # 비행기 이미지 로드
 user = Image()
@@ -179,25 +178,40 @@ class StartScreen:
 class GameScreen:
     def __init__(self) -> None:
         self.font = pygame.font.Font('fonts/neodgm.ttf', 30)
+
+        self.running = True
         self.used_bullet = 0
         self.crashed_missile = 0
-        self.health = 3
+        self.health = filled_heart.health
     
     def write_text(self):
         text_1 = self.font.render(f'Used bullet: {self.used_bullet}', True, (0,0,0))
         screen.blit(text_1, (3,0))
         text_2 = self.font.render(f'Crashed missile: {self.crashed_missile}', True, (0,0,0))
         screen.blit(text_2, (3,text_1.get_height()))
+    
+    def lost_health(self):
+        self.health -= 1
+        ending_sound.play()
 
     def show_health(self):
-        for i in range(len(filled_heart.xy_list)):
-            filled_heart.x = filled_heart.xy_list[i][0]
-            filled_heart.y = filled_heart.xy_list[i][1]
-            filled_heart.show()
+        remaining_health = filled_heart.health-self.health
+        if remaining_health == filled_heart.health:
+            self.running = False
+
+        for i in range(filled_heart.health):
+            if remaining_health != 0:
+                remaining_health -= 1
+                empty_heart.x = filled_heart.xy_list[i][0]
+                empty_heart.y = filled_heart.xy_list[i][1]
+                empty_heart.show()
+            else:
+                filled_heart.x = filled_heart.xy_list[i][0]
+                filled_heart.y = filled_heart.xy_list[i][1]
+                filled_heart.show()
 
     def run(self):
-        running = True
-        while running:
+        while self.running:
             fps = clock.tick(frame_rate)
             # 이벤트 발생시 가져오기
             for event in pygame.event.get():
@@ -245,6 +259,7 @@ class GameScreen:
             # 미사일 좌우 랜덤 하강
             missile.y += 0.5  * fps
             if missile.y >= screen_height:
+                self.lost_health()
                 missile.y = -missile.height
                 missile.x = random.randint(0, screen_width - missile.width)
 
@@ -278,12 +293,12 @@ class GameScreen:
 
             # 유저 충돌 감지
             if user.get_rect().colliderect(missile.get_rect()):
+                self.lost_health()
                 explode.is_show = True
                 explode.x = user.x + user.width/2 - explode.width/2
                 explode.y = user.y - explode.height/2
-                # pygame.mixer.music.fadeout(500)
-                ending_sound.play()
-                running = False
+                missile.y = -missile.height
+                missile.x = random.randint(0, screen_width - missile.width)
 
             # 미사일 저격 감지
             delete_list = []
