@@ -137,6 +137,7 @@ gunshot_sound = pygame.mixer.Sound('sounds/gun-shot.mp3')
 ending_sound = pygame.mixer.Sound('sounds/ending.mp3')
 
 
+
 class StartScreen:
     def __init__(self) -> None:
         self.font = pygame.font.Font('fonts/neodgm.ttf', 50)
@@ -171,6 +172,7 @@ class StartScreen:
             screen.blit(text, (screen_width/2-text.get_width()/2, screen_height/2+text.get_height()-20))
 
             pygame.display.update()
+
 
 
 class GameScreen:
@@ -317,9 +319,9 @@ class GameScreen:
                 explode.is_show = False
                 explode.show()
 
-
             # 지정한 위치 업데이트
             pygame.display.update()
+
 
 
 class EndingScreen:
@@ -341,6 +343,7 @@ class EndingScreen:
             screen.blit(text, (screen_width/2 - text.get_width()/2, screen_height/2 - text.get_height()/2))
 
             pygame.display.update()
+
 
 
 if __name__ == '__main__':
