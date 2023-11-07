@@ -115,6 +115,11 @@ missile.change_size(60, 226)
 missile.x = screen_width/2 - missile.width/2
 missile.y = -missile.height
 
+# 폭발 이미지 로드
+explode = Image()
+explode.load_image('images/explode.png')
+explode.change_size(100, 100)
+explode.is_show = False
 
 # 총알 이미지 로드
 bullet = Image()
@@ -270,6 +275,9 @@ class GameScreen:
 
             # 유저 충돌 감지
             if user.get_rect().colliderect(missile.get_rect()):
+                explode.is_show = True
+                explode.x = user.x + user.width/2 - explode.width/2
+                explode.y = user.y - explode.height/2
                 # pygame.mixer.music.fadeout(500)
                 ending_sound.play()
                 running = False
@@ -281,8 +289,11 @@ class GameScreen:
                 bullet.y = bullet.xy_list[i][1]
                 if missile.get_rect().colliderect(bullet.get_rect()):
                     delete_list.append(i)
-                    missile.y = -missile.height
+                    explode.is_show = True
+                    explode.x = missile.x + missile.width/2 - explode.width/2
+                    explode.y = missile.y + missile.height - explode.height/2
                     missile.x = random.randint(0, screen_width - missile.width)
+                    missile.y = -missile.height
 
             # 저격 성공한 총알은 삭제
             for d in delete_list[::-1]:
@@ -302,6 +313,9 @@ class GameScreen:
             user.show()
             self.write_text()
             self.show_health()
+            if explode.is_show:
+                explode.is_show = False
+                explode.show()
 
 
             # 지정한 위치 업데이트
