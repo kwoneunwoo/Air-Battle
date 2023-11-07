@@ -76,10 +76,18 @@ background_2.flip_image(False, True)
 # 두번째 배경 좌표: 화면 밖 위쪽
 background_2.y = -background_2.height
 
-# 구름 이미지 로드
-# cloud = Image()
-# cloud.load_image('images/cloud-1.png')
-# cloud.change_size(400, 191)
+# 구름 이미지들 로드
+cloud_1 = Image()
+cloud_1.load_image('images/cloud-1.png')
+cloud_1.change_size(400, 191)
+
+cloud_2 = Image()
+cloud_2.load_image('images/cloud-2.png')
+cloud_2.change_size(400, 400)
+
+cloud_3 = Image()
+cloud_3.load_image('images/cloud-3.png')
+cloud_3.change_size(400, 400)
 # cloud.img.set_alpha(128)
 
 # 채워진 생명 이미지 로드
@@ -175,9 +183,10 @@ class GameScreen:
         self.font = pygame.font.Font('fonts/neodgm.ttf', 30)
 
         self.running = True
+        self.cloud = None
+        self.health = filled_heart.health
         self.used_bullet = 0
         self.crashed_missile = 0
-        self.health = filled_heart.health
     
     def write_text(self):
         text_1 = self.font.render(f'Used bullet: {self.used_bullet}', True, (0,0,0))
@@ -204,6 +213,13 @@ class GameScreen:
                 filled_heart.x = filled_heart.xy_list[i][0]
                 filled_heart.y = filled_heart.xy_list[i][1]
                 filled_heart.show()
+
+    def show_cloud(self, fps: int):
+        if self.cloud == None or self.cloud.y >= screen_height:
+            self.cloud = random.choice([cloud_1, cloud_2, cloud_3])
+            self.cloud.y = -self.cloud.height
+        self.cloud.y += 0.08 * fps
+        self.cloud.show()
 
     def run(self):
         while self.running:
@@ -248,9 +264,6 @@ class GameScreen:
             if background_2.y >= screen_height:
                 background_2.y = -background_2.height + background_1.y
 
-            # 구름 이동
-            # cloud.y += 0.08 * fps
-            
             # 미사일 좌우 랜덤 하강
             missile.y += 0.5  * fps
             if missile.y >= screen_height:
@@ -317,7 +330,7 @@ class GameScreen:
             # 이미지 위치 지정
             background_1.show()
             background_2.show()
-            # cloud.show()
+            self.show_cloud(fps)
             for i in range(len(bullet.xy_list)):
                 bullet.x = bullet.xy_list[i][0]
                 bullet.y = bullet.xy_list[i][1]
