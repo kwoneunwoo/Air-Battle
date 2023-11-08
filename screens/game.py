@@ -10,12 +10,6 @@ class GameScreen:
         self.screen = screen
         self.clock = clock
 
-        self.running = True
-        self.cloud = None
-        self.health = config.health
-        self.used_bullet = 0
-        self.crashed_missile = 0
-
     def load_resource(self):
         self.font = pygame.font.Font('fonts/neodgm.ttf', 30)
 
@@ -77,6 +71,13 @@ class GameScreen:
         self.ending_sound = pygame.mixer.Sound('sounds/ending.mp3')
 
     def init_variable(self):
+        self.running = True
+        self.cloud = None
+        self.health = config.health
+        self.used_bullet = 0
+        self.crashed_missile = 0
+    
+        self.background_1.y = 0
         self.background_2.y = -self.background_2.height
 
         self.user.to_x = 0

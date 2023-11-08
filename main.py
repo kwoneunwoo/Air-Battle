@@ -1,6 +1,5 @@
 import os
 import pygame
-import random
 
 from screens import start, game, ending
 
@@ -47,3 +46,8 @@ game_screen.init_variable()
 start_screen.run()
 game_screen.run()
 ending_screen.run()
+while ending_screen.restart:
+    start_screen.run()
+    game_screen.init_variable()
+    game_screen.run()
+    ending_screen.run()
