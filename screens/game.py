@@ -80,8 +80,10 @@ class GameScreen:
         self.background_1.y = 0
         self.background_2.y = -self.background_2.height
 
-        self.user.to_x = 0
-        self.user.to_y = 0
+        self.user.to_right = False
+        self.user.to_left = False
+        self.user.to_up = False
+        self.user.to_down = False
         self.user.x = config.screen_width/2 - self.user.width/2
         self.user.y = config.screen_height - self.user.height
 
@@ -158,8 +160,21 @@ class GameScreen:
             del self.bullet.xy_list[d]
     
     def move_user(self, fps: int):
-        self.user.x += self.user.to_x * fps
-        self.user.y += self.user.to_y * fps
+        to_x = 0
+        to_y = 0
+
+        if self.user.to_right == True:
+            to_x = 0.7
+        elif self.user.to_left == True:
+            to_x = -0.7
+
+        if self.user.to_up == True:
+            to_y = -0.7
+        elif self.user.to_down == True:
+            to_y = 0.7
+
+        self.user.x += to_x * fps
+        self.user.y += to_y * fps
 
         if self.user.x >= config.screen_width - self.user.width:
             self.user.x = config.screen_width - self.user.width
@@ -210,13 +225,13 @@ class GameScreen:
 
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT:
-                        self.user.to_x += 0.7
+                        self.user.to_right = True
                     elif event.key == pygame.K_LEFT:
-                        self.user.to_x -= 0.7
+                        self.user.to_left = True
                     elif event.key == pygame.K_UP:
-                        self.user.to_y -= 0.7
+                        self.user.to_up = True
                     elif event.key == pygame.K_DOWN:
-                        self.user.to_y += 0.7
+                        self.user.to_down = True
                     elif event.key == pygame.K_SPACE or event.key == pygame.K_LCTRL:
                         self.bullet.y = self.user.y + self.bullet.height
                         self.bullet.x = self.user.x + self.user.width/2 - self.bullet.width/2
@@ -225,10 +240,14 @@ class GameScreen:
                         self.gunshot_sound.play()
 
                 elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_RIGHT or event.key==pygame.K_LEFT:
-                        self.user.to_x = 0
-                    elif event.key == pygame.K_UP or event.key==pygame.K_DOWN:
-                        self.user.to_y = 0
+                    if event.key == pygame.K_RIGHT:
+                        self.user.to_right = False
+                    elif event.key == pygame.K_LEFT:
+                        self.user.to_left = False
+                    elif event.key == pygame.K_UP:
+                        self.user.to_up = False
+                    elif event.key==pygame.K_DOWN:
+                        self.user.to_down = False
 
 
             self.move_background(fps)
