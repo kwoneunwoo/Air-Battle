@@ -120,24 +120,94 @@ class GameScreen:
                 self.filled_heart.y = self.filled_heart.xy_list[i][1]
                 self.filled_heart.show()
 
-    def show_cloud(self, fps: int):
+
+    def move_background(self, fps: int):
+        self.background_1.y += 0.05 * fps
+        self.background_2.y += 0.05 * fps
+
+        if self.background_1.y >= config.screen_height:
+            self.background_1.y = -self.background_1.height + self.background_2.y
+        if self.background_2.y >= config.screen_height:
+            self.background_2.y = -self.background_2.height + self.background_1.y
+
+    def move_cloud(self, fps: int):
         if self.cloud == None or self.cloud.y >= config.screen_height:
             self.cloud = random.choice([self.cloud_1, self.cloud_2, self.cloud_3])
             self.cloud.y = -self.cloud.height
         self.cloud.y += 0.08 * fps
-        self.cloud.show()
+
+    def reset_missile_position(self):
+        self.missile.y = -self.missile.height
+        self.missile.x = random.randint(0, config.screen_width - self.missile.width)
+
+    def move_missile(self, fps: int):
+        self.missile.y += 0.5  * fps
+        if self.missile.y >= config.screen_height:
+            self.lost_health()
+            self.reset_missile_position()
+
+    def move_bullet(self, fps: int):
+        delete_list = []
+        for i in range(len(self.bullet.xy_list)):
+            if self.bullet.xy_list[i][1] <= 0:
+                delete_list.append(i)
+            else:
+                self.bullet.xy_list[i][1] -= 0.7 * fps
+
+        for d in delete_list[::-1]:
+            del self.bullet.xy_list[d]
+    
+    def move_user(self, fps: int):
+        self.user.x += self.user.to_x * fps
+        self.user.y += self.user.to_y * fps
+
+        if self.user.x >= config.screen_width - self.user.width:
+            self.user.x = config.screen_width - self.user.width
+        elif self.user.x <= 0:
+            self.user.x = 0
+
+        if self.user.y >= config.screen_height - self.user.height:
+            self.user.y = config.screen_height - self.user.height
+        elif self.user.y <= 0:
+            self.user.y = 0
+
+
+    def check_user_crash(self):
+        if self.user.get_rect().colliderect(self.missile.get_rect()):
+            self.lost_health()
+
+            self.explode.is_show = True
+            self.explode.x = self.user.x + self.user.width/2 - self.explode.width/2
+            self.explode.y = self.user.y - self.explode.height/2
+            
+            self.reset_missile_position()
+
+    def check_missile_crash(self):
+        delete_list = []
+        for i in range(len(self.bullet.xy_list)):
+            self.bullet.x = self.bullet.xy_list[i][0]
+            self.bullet.y = self.bullet.xy_list[i][1]
+            if self.missile.get_rect().colliderect(self.bullet.get_rect()):
+                delete_list.append(i)
+
+                self.explode.is_show = True
+                self.explode.x = self.missile.x + self.missile.width/2 - self.explode.width/2
+                self.explode.y = self.missile.y + self.missile.height - self.explode.height/2
+
+                self.reset_missile_position()
+
+        for d in delete_list[::-1]:
+            self.crashed_missile += 1
+            del self.bullet.xy_list[d]
 
 
     def run(self):
         while self.running:
             fps = self.clock.tick(config.frame_rate)
-            # 이벤트 발생시 가져오기
             for event in pygame.event.get():
-                # 끄기 버튼 누를시 끄기
                 if event.type == pygame.QUIT:
                     quit()
 
-                # 키 누를때 움직이기
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT:
                         self.user.to_x += 0.7
@@ -154,7 +224,6 @@ class GameScreen:
                         self.used_bullet += 1
                         self.gunshot_sound.play()
 
-                # 키 올릴때 초기화
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT or event.key==pygame.K_LEFT:
                         self.user.to_x = 0
@@ -162,87 +231,19 @@ class GameScreen:
                         self.user.to_y = 0
 
 
-            # 배경 이동
-            self.background_1.y += 0.05 * fps
-            self.background_2.y += 0.05 * fps
+            self.move_background(fps)
+            self.move_cloud(fps)
+            self.move_missile(fps)
+            self.move_bullet(fps)
+            self.move_user(fps)
 
-            if self.background_1.y >= config.screen_height:
-                self.background_1.y = -self.background_1.height + self.background_2.y
-            if self.background_2.y >= config.screen_height:
-                self.background_2.y = -self.background_2.height + self.background_1.y
-
-            # 미사일 좌우 랜덤 하강
-            self.missile.y += 0.5  * fps
-            if self.missile.y >= config.screen_height:
-                self.lost_health()
-                self.missile.y = -self.missile.height
-                self.missile.x = random.randint(0, config.screen_width - self.missile.width)
-
-            # 총알 상승
-            delete_list = []
-            for i in range(len(self.bullet.xy_list)):
-                if self.bullet.xy_list[i][1] <= 0:
-                    delete_list.append(i)
-                else:
-                    self.bullet.xy_list[i][1] -= 0.7 * fps
-
-            # 화면을 넘어간 총알은 삭제
-            for d in delete_list[::-1]:
-                del self.bullet.xy_list[d]
-
-            # 유저 좌표 변경
-            self.user.x += self.user.to_x * fps
-            self.user.y += self.user.to_y * fps
-
-            # x좌표 이상 벗어나지 않게
-            if self.user.x >= config.screen_width - self.user.width: # 우측
-                self.user.x = config.screen_width - self.user.width
-            elif self.user.x <= 0: # 좌측
-                self.user.x = 0
-            # y좌표 이상 벗어나지 않게
-            if self.user.y >= config.screen_height - self.user.height: # 하단
-                self.user.y = config.screen_height - self.user.height
-            elif self.user.y <= 0: # 상단
-                self.user.y = 0
-            
-
-            # 유저 충돌 감지
-            if self.user.get_rect().colliderect(self.missile.get_rect()):
-                self.lost_health()
-                # 폭발 이미지 위치 조정
-                self.explode.is_show = True
-                self.explode.x = self.user.x + self.user.width/2 - self.explode.width/2
-                self.explode.y = self.user.y - self.explode.height/2
-                # 미사일 다시 내려오기
-                self.missile.y = -self.missile.height
-                self.missile.x = random.randint(0, config.screen_width - self.missile.width)
-
-            # 미사일 저격 감지
-            delete_list = []
-            for i in range(len(self.bullet.xy_list)):
-                self.bullet.x = self.bullet.xy_list[i][0]
-                self.bullet.y = self.bullet.xy_list[i][1]
-                if self.missile.get_rect().colliderect(self.bullet.get_rect()):
-                    delete_list.append(i)
-                    # 폭발 이미지 위치 조정
-                    self.explode.is_show = True
-                    self.explode.x = self.missile.x + self.missile.width/2 - self.explode.width/2
-                    self.explode.y = self.missile.y + self.missile.height - self.explode.height/2
-                    # 미사일 다시 내려오기
-                    self.missile.x = random.randint(0, config.screen_width - self.missile.width)
-                    self.missile.y = -self.missile.height
-
-            # 저격 성공한 총알은 삭제
-            for d in delete_list[::-1]:
-                self.crashed_missile += 1
-                del self.bullet.xy_list[d]
+            self.check_user_crash()
+            self.check_missile_crash()
 
 
-            # 이미지 위치 지정
             self.background_1.show()
             self.background_2.show()
-            self.show_cloud(fps)
-            # 좌표 리스트로 총알 그리기
+            self.cloud.show()
             for i in range(len(self.bullet.xy_list)):
                 self.bullet.x = self.bullet.xy_list[i][0]
                 self.bullet.y = self.bullet.xy_list[i][1]
@@ -259,5 +260,5 @@ class GameScreen:
                     self.explode.count = 0
                     self.explode.is_show = False
 
-            # 지정한 위치 업데이트
+
             pygame.display.update()
