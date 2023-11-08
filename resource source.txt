@@ -3,10 +3,9 @@ https://neodgm.dalgona.dev/downloads/neodgm.html
 
 이미지
 총알: https://m.blog.naver.com/samsjang/220707391932
-카이퍼 벨트: https://www.pngwing.com/ko/free-png-zszgw
 픽셀 하트: https://minecraft.fandom.com/ko/wiki/%EC%83%9D%EB%AA%85%EB%A0%A5 에서 추출
-https://static.wikia.nocookie.net/minecraft_ko_gamepedia/images/a/a7/Heart.svg
-https://static.wikia.nocookie.net/minecraft_ko_gamepedia/images/b/be/Empty_Heart.svg/revision/latest?cb=20130704035004
+ - https://static.wikia.nocookie.net/minecraft_ko_gamepedia/images/a/a7/Heart.svg
+ - https://static.wikia.nocookie.net/minecraft_ko_gamepedia/images/b/be/Empty_Heart.svg/revision/latest?cb=20130704035004
 폭발: https://kor.pngtree.com/freepng/explosive-effect_3128635.html
 
 배경 음악
