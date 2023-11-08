@@ -20,54 +20,53 @@ class GameScreen:
         self.font = pygame.font.Font('fonts/neodgm.ttf', 30)
 
 
-        self.background_1 = Image()
+        self.background_1 = Image(self.screen)
         self.background_1.load_image('images/sky.jpg')
         self.background_1.change_size(config.screen_width, config.screen_height)
 
-        self.background_2 = Image()
+        self.background_2 = Image(self.screen)
         self.background_2.img = self.background_1.img.copy()
         self.background_2.flip_image(False, True)
 
 
-        self.cloud_1 = Image()
+        self.cloud_1 = Image(self.screen)
         self.cloud_1.load_image('images/cloud-1.png')
         self.cloud_1.change_size(400, 191)
 
-        self.cloud_2 = Image()
+        self.cloud_2 = Image(self.screen)
         self.cloud_2.load_image('images/cloud-2.png')
         self.cloud_2.change_size(400, 400)
 
-        self.cloud_3 = Image()
+        self.cloud_3 = Image(self.screen)
         self.cloud_3.load_image('images/cloud-3.png')
         self.cloud_3.change_size(400, 400)
 
 
-        self.filled_heart = Image()
+        self.filled_heart = Image(self.screen)
         self.filled_heart.load_image('images/filled-heart.png')
         self.filled_heart.change_size(40, 40)
-        self.filled_heart.health = config.health
         self.filled_heart.xy_list = []
-        for i in range(1, self.filled_heart.health+1):
+        for i in range(1, config.health+1):
             self.filled_heart.xy_list.append((config.screen_width-self.filled_heart.width*i-10*i, 10))
 
-        self.empty_heart = Image()
+        self.empty_heart = Image(self.screen)
         self.empty_heart.load_image('images/empty-heart.png')
         self.empty_heart.change_size(40, 40)
 
 
-        self.user = Image()
+        self.user = Image(self.screen)
         self.user.load_image('images/fighter-jet.png')
         self.user.change_size(120, 120)
 
-        self.missile = Image()
+        self.missile = Image(self.screen)
         self.missile.load_image('images/missile.png')
         self.missile.change_size(60, 226)
 
-        self.explode = Image()
+        self.explode = Image(self.screen)
         self.explode.load_image('images/explode.png')
         self.explode.change_size(100, 100)
 
-        self.bullet = Image()
+        self.bullet = Image(self.screen)
         self.bullet.load_image('images/bullet.png')
 
         # TODO: 배경음 테스트
@@ -105,11 +104,11 @@ class GameScreen:
         self.ending_sound.play()
 
     def show_health(self):
-        remaining_health = self.filled_heart.health-self.health
-        if remaining_health == self.filled_heart.health:
+        remaining_health = config.health-self.health
+        if remaining_health == config.health:
             self.running = False
 
-        for i in range(self.filled_heart.health):
+        for i in range(config.health):
             if remaining_health != 0:
                 remaining_health -= 1
                 self.empty_heart.x = self.filled_heart.xy_list[i][0]
@@ -173,10 +172,10 @@ class GameScreen:
 
             # 미사일 좌우 랜덤 하강
             self.missile.y += 0.5  * fps
-            if self.missile.y >= self.screen_height:
+            if self.missile.y >= config.screen_height:
                 self.lost_health()
                 self.missile.y = -self.missile.height
-                self.missile.x = random.randint(0, self.screen_width - self.missile.width)
+                self.missile.x = random.randint(0, config.screen_width - self.missile.width)
 
             # 총알 상승
             delete_list = []
@@ -215,7 +214,7 @@ class GameScreen:
                 self.explode.y = self.user.y - self.explode.height/2
                 # 미사일 다시 내려오기
                 self.missile.y = -self.missile.height
-                self.missile.x = random.randint(0, self.screen_width - self.missile.width)
+                self.missile.x = random.randint(0, config.screen_width - self.missile.width)
 
             # 미사일 저격 감지
             delete_list = []
@@ -229,7 +228,7 @@ class GameScreen:
                     self.explode.x = self.missile.x + self.missile.width/2 - self.explode.width/2
                     self.explode.y = self.missile.y + self.missile.height - self.explode.height/2
                     # 미사일 다시 내려오기
-                    self.missile.x = random.randint(0, self.screen_width - self.missile.width)
+                    self.missile.x = random.randint(0, config.screen_width - self.missile.width)
                     self.missile.y = -self.missile.height
 
             # 저격 성공한 총알은 삭제
