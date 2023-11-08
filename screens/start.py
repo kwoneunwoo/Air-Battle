@@ -22,15 +22,24 @@ class StartScreen:
                         running = False
 
 
-            self.screen.fill((0,0,0))
+            self.screen.fill(config.Color.black)
 
-            text = self.font.render('TO START THE GAME', True, (200,0,200))
-            self.screen.blit(text, (config.screen_width/2-text.get_width()/2+3, config.screen_height/2-text.get_height()-20+3))
-            text = self.font.render('TO START THE GAME', True, (255,255,255))
-            self.screen.blit(text, (config.screen_width/2-text.get_width()/2, config.screen_height/2-text.get_height()-20))
-            text = self.font.render('PRESS SPACE KEY', True, (200,0,200))
-            self.screen.blit(text, (config.screen_width/2-text.get_width()/2+3, config.screen_height/2+text.get_height()-20+3))
-            text = self.font.render('PRESS SPACE KEY', True, (255,255,255))
-            self.screen.blit(text, (config.screen_width/2-text.get_width()/2, config.screen_height/2+text.get_height()-20))
+
+            text = self.font.render('TO START THE GAME', True, config.Color.purple)
+            text_x = config.screen_width/2-text.get_width()/2
+            text_y = config.screen_height/2-text.get_height()-20
+            self.screen.blit(text, (text_x+3, text_y+3))
+
+            text = self.font.render('TO START THE GAME', True, config.Color.white)
+            self.screen.blit(text, (text_x, text_y))
+
+            text = self.font.render('PRESS SPACE KEY', True, config.Color.purple)
+            text_x = config.screen_width/2-text.get_width()/2
+            text_y = config.screen_height/2+text.get_height()-20
+            self.screen.blit(text, (text_x+3, text_y+3))
+
+            text = self.font.render('PRESS SPACE KEY', True, config.Color.white)
+            self.screen.blit(text, (text_x, text_y))
+
 
             pygame.display.update()

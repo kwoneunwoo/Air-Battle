@@ -12,7 +12,6 @@ os.chdir(os.path.dirname(__file__))
 pygame.init()
 
 # FPS 세팅
-frame_rate = 60
 clock = pygame.time.Clock()
 
 # 화면 크기 세팅

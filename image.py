@@ -28,10 +28,10 @@ class Image:
     #     self.__set_size__()
 
     def get_rect(self):
-        self.rect = self.img.get_rect()
-        self.rect.left = self.x
-        self.rect.top = self.y
-        return self.rect
+        rect = self.img.get_rect()
+        rect.left = self.x
+        rect.top = self.y
+        return rect
 
     def show(self):
         self.screen.blit(self.img, (self.x, self.y))
