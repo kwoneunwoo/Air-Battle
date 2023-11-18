@@ -25,6 +25,10 @@ pygame.display.set_icon(programIcon)
 pygame.display.set_caption('Air Battle')
 
 
+# 노래 재생
+pygame.mixer.music.load('resources/sounds/stranger-things.mp3')
+pygame.mixer.music.play(-1)
+
 
 # 스크린 선언
 start_screen = start.StartScreen(screen, clock)
