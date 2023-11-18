@@ -1,7 +1,7 @@
 import os
 import pygame
 
-from screens import start, game, ending
+import screens
 
 
 
@@ -26,14 +26,14 @@ pygame.display.set_caption('Air Battle')
 
 
 # 노래 재생
-pygame.mixer.music.load('resources/sounds/stranger-things.mp3')
-pygame.mixer.music.play(-1)
+# pygame.mixer.music.load('resources/sounds/stranger-things.mp3')
+# pygame.mixer.music.play(-1)
 
 
 # 스크린 선언
-start_screen = start.StartScreen(screen, clock)
-game_screen = game.GameScreen(screen, clock)
-ending_screen = ending.EndingScreen(screen, clock)
+start_screen = screens.StartScreen(screen, clock)
+game_screen = screens.GameScreen(screen, clock)
+ending_screen = screens.EndingScreen(screen, clock)
 
 # 리소스 로드
 print('준비창 로드중...')
@@ -43,12 +43,8 @@ game_screen.load_resource()
 print('엔딩창 로드중...')
 ending_screen.load_resource()
 
-game_screen.init_variable()
 
 # 실행
-start_screen.run()
-game_screen.run()
-ending_screen.run()
 while ending_screen.restart:
     start_screen.run()
     game_screen.init_variable()
