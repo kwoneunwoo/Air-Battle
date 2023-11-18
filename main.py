@@ -20,7 +20,7 @@ screen_height = 700#640
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # 화면 제목 세팅
-programIcon = pygame.image.load('images/gun.png')
+programIcon = pygame.image.load('resources/images/gun.png')
 pygame.display.set_icon(programIcon)
 pygame.display.set_caption('Air Battle')
 

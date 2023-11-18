@@ -8,7 +8,7 @@ class StartScreen:
         self.clock = clock
 
     def load_resource(self):
-        self.font = pygame.font.Font('fonts/neodgm.ttf', 50)
+        self.font = pygame.font.Font('resources/fonts/neodgm.ttf', 50)
 
     def run(self):
         running = True

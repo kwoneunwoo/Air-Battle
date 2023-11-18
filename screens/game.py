@@ -11,11 +11,11 @@ class GameScreen:
         self.clock = clock
 
     def load_resource(self):
-        self.font = pygame.font.Font('fonts/neodgm.ttf', 30)
+        self.font = pygame.font.Font('resources/fonts/neodgm.ttf', 30)
 
 
         self.background_1 = Image(self.screen)
-        self.background_1.load_image('images/sky.jpg')
+        self.background_1.load_image('sky.jpg')
         self.background_1.change_size(config.screen_width, config.screen_height)
 
         self.background_2 = Image(self.screen)
@@ -24,51 +24,51 @@ class GameScreen:
 
 
         self.cloud_1 = Image(self.screen)
-        self.cloud_1.load_image('images/cloud-1.png')
+        self.cloud_1.load_image('cloud-1.png')
         self.cloud_1.change_size(400, 191)
 
         self.cloud_2 = Image(self.screen)
-        self.cloud_2.load_image('images/cloud-2.png')
+        self.cloud_2.load_image('cloud-2.png')
         self.cloud_2.change_size(400, 400)
 
         self.cloud_3 = Image(self.screen)
-        self.cloud_3.load_image('images/cloud-3.png')
+        self.cloud_3.load_image('cloud-3.png')
         self.cloud_3.change_size(400, 400)
 
 
         self.filled_heart = Image(self.screen)
-        self.filled_heart.load_image('images/filled-heart.png')
+        self.filled_heart.load_image('filled-heart.png')
         self.filled_heart.change_size(40, 40)
         self.filled_heart.xy_list = []
         for i in range(1, config.health+1):
             self.filled_heart.xy_list.append((config.screen_width-self.filled_heart.width*i-10*i, 10))
 
         self.empty_heart = Image(self.screen)
-        self.empty_heart.load_image('images/empty-heart.png')
+        self.empty_heart.load_image('empty-heart.png')
         self.empty_heart.change_size(40, 40)
 
 
         self.user = Image(self.screen)
-        self.user.load_image('images/fighter-jet.png')
+        self.user.load_image('fighter-jet.png')
         self.user.change_size(120, 120)
 
         self.missile = Image(self.screen)
-        self.missile.load_image('images/missile.png')
+        self.missile.load_image('missile.png')
         self.missile.change_size(60, 226)
 
         self.explode = Image(self.screen)
-        self.explode.load_image('images/explode.png')
+        self.explode.load_image('explode.png')
         self.explode.change_size(100, 100)
 
         self.bullet = Image(self.screen)
-        self.bullet.load_image('images/bullet.png')
+        self.bullet.load_image('bullet.png')
 
         # TODO: 배경음 테스트
-        pygame.mixer.music.load('sounds/stranger-things.mp3')
+        pygame.mixer.music.load('resources/sounds/stranger-things.mp3')
         pygame.mixer.music.play(-1)
 
-        self.gunshot_sound = pygame.mixer.Sound('sounds/gun-shot.mp3')
-        self.ending_sound = pygame.mixer.Sound('sounds/ending.mp3')
+        self.gunshot_sound = pygame.mixer.Sound('resources/sounds/gun-shot.mp3')
+        self.ending_sound = pygame.mixer.Sound('resources/sounds/ending.mp3')
 
     def init_variable(self):
         self.running = True

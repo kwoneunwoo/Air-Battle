@@ -10,7 +10,7 @@ class EndingScreen:
         self.restart = False
 
     def load_resource(self):
-        self.font = pygame.font.Font('fonts/neodgm.ttf', 100)
+        self.font = pygame.font.Font('resources/fonts/neodgm.ttf', 100)
 
     def run(self):
         running = True
