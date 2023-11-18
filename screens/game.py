@@ -170,7 +170,7 @@ class GameScreen:
 
         if self.user.to_up == True:
             to_y = -0.7
-        elif self.user.to_down == True:
+        elif self.user.to_down == True or config.air_resistance:
             to_y = 0.7
 
         self.user.x += to_x * fps

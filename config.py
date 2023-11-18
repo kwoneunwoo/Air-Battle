@@ -8,8 +8,8 @@ screen_height = 700#640
 
 
 ## [[ Game Configure]] ##
-# set health
 health = 3
+air_resistance = False
 
 
 ## [[ Color Configure]] ##
