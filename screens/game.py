@@ -2,7 +2,7 @@ import random
 import pygame
 
 import config
-from image import Image
+from objects.image import Image
 
 
 class GameScreen:
@@ -64,8 +64,8 @@ class GameScreen:
         self.bullet.load_image('bullet.png')
 
         # TODO: 배경음 테스트
-        pygame.mixer.music.load('resources/sounds/stranger-things.mp3')
-        pygame.mixer.music.play(-1)
+        # pygame.mixer.music.load('resources/sounds/stranger-things.mp3')
+        # pygame.mixer.music.play(-1)
 
         self.gunshot_sound = pygame.mixer.Sound('resources/sounds/gun-shot.mp3')
         self.ending_sound = pygame.mixer.Sound('resources/sounds/ending.mp3')
