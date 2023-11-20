@@ -34,6 +34,8 @@ class StartScreen:
                         self.msg = 'setting'
                         running = False
 
+            self.setting_btn.change_cursor()
+
 
             self.screen.fill(config.Color.black)
 
