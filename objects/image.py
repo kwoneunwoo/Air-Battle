@@ -5,6 +5,9 @@ class Image:
     def __init__(self, screen) -> None:
         self.x = 0
         self.y = 0
+        self.img = None
+        self.width = 0
+        self.height = 0
         self.screen = screen
 
     def __set_size__(self):
