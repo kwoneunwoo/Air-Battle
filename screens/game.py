@@ -6,9 +6,9 @@ from objects.image import Image
 
 
 class GameScreen:
-    def __init__(self, screen, clock) -> None:
+    def __init__(self, screen) -> None:
         self.screen = screen
-        self.clock = clock
+        self.clock = pygame.time.Clock()
 
     def load_resource(self):
         self.font = pygame.font.Font('resources/fonts/neodgm.ttf', 30)
