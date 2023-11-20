@@ -1,8 +1,8 @@
 import os
 import pygame
 
+import config
 import screens
-
 
 
 # 경로 설정
@@ -12,9 +12,7 @@ os.chdir(os.path.dirname(__file__))
 pygame.init()
 
 # 화면 크기 세팅
-screen_width = 480
-screen_height = 700#640
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode((config.screen_width, config.screen_height))
 
 # 화면 제목 세팅
 programIcon = pygame.image.load('resources/images/gun.png')
