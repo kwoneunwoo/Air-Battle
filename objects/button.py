@@ -9,6 +9,6 @@ class Button(Image):
         else:
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
-    def mouse_over(self):
+    def mouse_over(self) -> bool:
         pos = pygame.mouse.get_pos()
         return self.get_rect().collidepoint(pos)

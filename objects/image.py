@@ -13,7 +13,7 @@ class Image:
     def __set_size__(self):
         self.width, self.height = self.img.get_size()
 
-    def load_image(self, path):
+    def load_image(self, path: str):
         self.img = pygame.image.load(os.path.join('resources/images', path))
         if path[-3:] == 'png':
             self.img = self.img.convert_alpha()
