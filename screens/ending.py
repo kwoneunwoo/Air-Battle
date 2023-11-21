@@ -4,9 +4,9 @@ import config
 
 
 class EndingScreen:
-    def __init__(self, screen) -> None:
+    def __init__(self, screen, clock) -> None:
         self.screen = screen
-        self.clock = pygame.time.Clock()
+        self.clock = clock
         self.restart = True
 
     def load_resource(self):

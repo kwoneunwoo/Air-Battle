@@ -11,6 +11,9 @@ os.chdir(os.path.dirname(__file__))
 # 초기화
 pygame.init()
 
+# FPS 세팅
+clock = pygame.time.Clock()
+
 # 화면 크기 세팅
 screen = pygame.display.set_mode((config.screen_width, config.screen_height))
 
@@ -26,9 +29,9 @@ pygame.display.set_caption('Air Battle')
 
 
 # 스크린 선언
-start_screen = screens.StartScreen(screen)
-game_screen = screens.GameScreen(screen)
-ending_screen = screens.EndingScreen(screen)
+start_screen = screens.StartScreen(screen, clock)
+game_screen = screens.GameScreen(screen, clock)
+ending_screen = screens.EndingScreen(screen, clock)
 
 # 리소스 로드
 print('준비창 로드중...')

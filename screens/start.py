@@ -4,9 +4,9 @@ import config
 from objects.button import Button
 
 class StartScreen:
-    def __init__(self, screen) -> None:
+    def __init__(self, screen, clock) -> None:
         self.screen = screen
-        self.clock = pygame.time.Clock()
+        self.clock = clock
         self.msg = ''
 
     def load_resource(self):
