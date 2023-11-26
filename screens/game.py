@@ -77,7 +77,8 @@ class GameScreen:
         self.used_bullet = 0
         self.crashed_missile = 0
     
-        for i in range(1, 4):
+        self.health_list_num = 3 if self.health > 3 else self.health
+        for i in range(1, self.health_list_num+1):
             self.filled_heart.xy_list.append((config.screen_width-self.filled_heart.width*i-10*i, 10))
             
         self.background_1.y = 0
@@ -118,9 +119,9 @@ class GameScreen:
             self.running = False
 
         # 남은 생명력을 표시하며 4개 이상이라면 숫자로 표현합니다
-        if self.health < 4:
-            remaining_health = 3-self.health
-            for i in range(3):
+        if self.health <= self.health_list_num:
+            remaining_health = self.health_list_num-self.health
+            for i in range(self.health_list_num):
                 if remaining_health != 0:
                     remaining_health -= 1
                     self.empty_heart.x = self.filled_heart.xy_list[i][0]
