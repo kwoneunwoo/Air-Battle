@@ -4,6 +4,7 @@ import config
 from config import Color
 from objects import ImageButton, SquareButton
 
+
 class SettingScreen:
     def __init__(self, screen, clock) -> None:
         self.screen = screen
@@ -19,8 +20,10 @@ class SettingScreen:
         self.exit_btn.x = config.screen_width-self.exit_btn.width/3*4
         self.exit_btn.y = self.exit_btn.height/3
 
-        self.on_btn = SquareButton(self.screen, Color.green, Color.bright_green)
-        self.on_btn.set_coordinate(80, 80)
+        self.on_btn = SquareButton(self.screen,
+                                   x=80, y=80,
+                                   text='test',
+                                   color=Color.green, focused_color=Color.bright_green)
 
         self.btn_list = [self.exit_btn, self.on_btn]
 

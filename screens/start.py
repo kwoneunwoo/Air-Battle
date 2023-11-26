@@ -4,6 +4,7 @@ import config
 from config import Color
 from objects import ImageButton
 
+
 class StartScreen:
     def __init__(self, screen, clock) -> None:
         self.screen = screen
