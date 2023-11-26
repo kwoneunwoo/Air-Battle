@@ -2,7 +2,7 @@ import random
 import pygame
 
 import config
-from objects.image import Image
+from objects import Image
 
 
 class GameScreen:

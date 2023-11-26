@@ -30,21 +30,21 @@ pygame.display.set_caption('Air Battle')
 
 # 스크린 선언
 start_screen = screens.StartScreen(screen, clock)
+setting_screen = screens.SettingScreen(screen, clock)
 game_screen = screens.GameScreen(screen, clock)
 ending_screen = screens.EndingScreen(screen, clock)
 
 # 리소스 로드
-print('준비창 로드중...')
-start_screen.load_resource()
-print('게임창 로드중...')
-game_screen.load_resource()
-print('엔딩창 로드중...')
-ending_screen.load_resource()
+for _screen in [start_screen, setting_screen, game_screen, ending_screen]:
+    print(f'Loading ... "{_screen.__class__.__name__}"')
+    _screen.load_resource()
 
 
 # 실행
 while ending_screen.restart:
     start_screen.run()
-    game_screen.init_variable()
-    game_screen.run()
-    ending_screen.run()
+    if start_screen.msg == 'setting':
+        setting_screen.run()
+    # game_screen.init_variable()
+    # game_screen.run()
+    # ending_screen.run()

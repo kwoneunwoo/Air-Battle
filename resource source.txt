@@ -7,7 +7,8 @@ https://neodgm.dalgona.dev/downloads/neodgm.html
  - https://static.wikia.nocookie.net/minecraft_ko_gamepedia/images/a/a7/Heart.svg
  - https://static.wikia.nocookie.net/minecraft_ko_gamepedia/images/b/be/Empty_Heart.svg/revision/latest?cb=20130704035004
 폭발: https://kor.pngtree.com/freepng/explosive-effect_3128635.html
-세팅: https://www.flaticon.com/kr/free-icon/settings_126472
+세팅: https://icon-icons.com/icon/setting-settings/183789
+로그아웃: https://www.iconfinder.com/icons/1283950/arrow_exit_logout_icon
 
 배경 음악
 https://pixabay.com/ko/music/stranger-things-124008/

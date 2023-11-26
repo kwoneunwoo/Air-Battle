@@ -18,3 +18,5 @@ class Color:
     white = (255,255,255)
     red = (255,0,0)
     purple = (200,0,200)
+    green = (0,200,0)
+    bright_green = (0,255,0)
