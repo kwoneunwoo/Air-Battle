@@ -269,6 +269,8 @@ class GameScreen:
                         self.bullet.xy_list.append([self.bullet.x, self.bullet.y])
                         self.used_bullet += 1
                         self.gunshot_sound.play()
+                    elif event.key == pygame.K_ESCAPE:
+                        self.running = False
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:

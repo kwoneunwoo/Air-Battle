@@ -40,7 +40,7 @@ class SettingScreen:
                 if event.type == pygame.QUIT:
                     quit()
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
+                    if event.key == pygame.K_ESCAPE:
                         running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     # 마우스 우클릭시 버튼 누름 확인 및 작동
