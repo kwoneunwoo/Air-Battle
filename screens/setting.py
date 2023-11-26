@@ -2,7 +2,7 @@ import pygame
 
 import config
 from config import Color
-from objects import ImageButton, SquareButton, ToggleButton
+from objects import ImageButton, ToggleButton, IntButton
 
 
 class SettingScreen:
@@ -25,8 +25,9 @@ class SettingScreen:
 
         self.bgm_btn = ToggleButton(self.screen, False, 80, 80)
         self.air_btn = ToggleButton(self.screen, False, 80, 80)
+        self.health_btn = IntButton(self.screen, config.health, 1, 5)
 
-        self.btn_list = [self.exit_btn, self.bgm_btn, self.air_btn]
+        self.btn_list = [self.exit_btn, self.bgm_btn, self.air_btn, self.health_btn]
 
 
     def run(self):
@@ -48,6 +49,8 @@ class SettingScreen:
                             self.bgm_btn.clicked()
                         elif self.air_btn.mouse_over():
                             self.air_btn.clicked()
+                        elif self.health_btn.mouse_over():
+                            self.health_btn.clicked()
 
 
             # 버튼과 마우스가 겹치는지 여부에 따라 커서를 변경합니다
@@ -70,32 +73,50 @@ class SettingScreen:
 
             # 세팅 텍스트와 버튼
             text = self.neodgm_font.render('Setting', True, Color.white)
-            self.screen.blit(text, (config.screen_width/2-text.get_width()/2, text.get_height()/3))
-            screen_y = text.get_height()/3*4
+            screen_y = text.get_height()/3
+            # 중앙, 1/3 격차
+            self.screen.blit(text, (config.screen_width/2-text.get_width()/2, screen_y))
 
-            self.exit_btn.y = text.get_height()/3+text.get_height()/2-self.exit_btn.height/2
+            # 텍스트의 중간부분
+            self.exit_btn.y = screen_y+text.get_height()/2-self.exit_btn.height/2
             self.exit_btn.show()
+            screen_y += text.get_height() + 30
+
 
             # 배경음악 세팅
+            # 텍스트 작성
             text = self.setting_font.render('배경 음악', True, Color.white)
-            screen_y += 20
             self.screen.blit(text, (30, screen_y))
 
+            # 스크린의 맨 뒤와 30px 격차
             self.bgm_btn.x = config.screen_width-self.bgm_btn.width-30
+            # 위의 텍스트와 똑같은 y 좌표
             self.bgm_btn.y = screen_y
             self.bgm_btn.show()
-            screen_y += text.get_height()
+            # 텍스트 기준 내리기
+            screen_y += text.get_height() + 20
+
 
             # 공기저항 세팅
+            # 텍스트 작성
             text = self.setting_font.render('공기저항', True, Color.white)
-            screen_y += 20
             self.screen.blit(text, (30, screen_y))
 
+            # 뒤와 30px 격차
             self.air_btn.x = config.screen_width-self.air_btn.width-30
             self.air_btn.y = screen_y
             self.air_btn.show()
-            screen_y += text.get_height()
+            screen_y += text.get_height() + 20
 
+
+            # 생명력 세팅
+            text = self.setting_font.render('생명력', True, Color.white)
+            self.screen.blit(text, (30, screen_y))
+
+            self.health_btn.x = config.screen_width/2-self.health_btn.width*5/2-self.health_btn.margin*4/2
+            self.health_btn.y = screen_y+text.get_height()+10
+            self.health_btn.show()
+            screen_y += text.get_height()
 
 
             # 화면을 업데이트 합니다

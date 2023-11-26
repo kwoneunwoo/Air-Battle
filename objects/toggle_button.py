@@ -27,7 +27,7 @@ class ToggleButton:
         return pygame.Rect(self.x, self.y, self.width, self.height).collidepoint(pos)
 
     def clicked(self) -> bool:
-        ''' 버튼을 클릭하는 함수입니다 '''
+        ''' 버튼 클릭시 호출하는 함수입니다 '''
         self.is_on = not self.is_on
         if self.is_on:
             self.text = 'On'
