@@ -11,9 +11,10 @@ class GameScreen:
         self.clock = clock
 
     def load_resource(self):
+        ''' 스크린에 필요한 자원을 가져오는 함수입니다 '''
         self.font = pygame.font.Font('resources/fonts/neodgm.ttf', 30)
 
-
+        # 배경 이미지를 가져옵니다
         self.background_1 = Image(self.screen)
         self.background_1.load_image('sky.jpg')
         self.background_1.change_size(config.screen_width, config.screen_height)
@@ -22,7 +23,7 @@ class GameScreen:
         self.background_2.img = self.background_1.img.copy()
         self.background_2.flip_image(False, True)
 
-
+        # 구름 이미지들을 가져옵니다
         self.cloud_1 = Image(self.screen)
         self.cloud_1.load_image('cloud-1.png')
         self.cloud_1.change_size(400, 191)
@@ -35,7 +36,7 @@ class GameScreen:
         self.cloud_3.load_image('cloud-3.png')
         self.cloud_3.change_size(400, 400)
 
-
+        # 생명력 이미지를 가져와 x, y 좌표 리스트를 지정합니다
         self.filled_heart = Image(self.screen)
         self.filled_heart.load_image('filled-heart.png')
         self.filled_heart.change_size(40, 40)
@@ -47,26 +48,31 @@ class GameScreen:
         self.empty_heart.load_image('empty-heart.png')
         self.empty_heart.change_size(40, 40)
 
-
+        # 유저 이미지를 가져옵니다
         self.user = Image(self.screen)
         self.user.load_image('fighter-jet.png')
         self.user.change_size(120, 120)
 
+        # 미사일 이미지를 가져옵니다
         self.missile = Image(self.screen)
         self.missile.load_image('missile.png')
         self.missile.change_size(60, 226)
 
+        # 폭발 이미지를 가져옵니다
         self.explode = Image(self.screen)
         self.explode.load_image('explode.png')
         self.explode.change_size(100, 100)
 
+        # 총알 이미지를 가져옵니다
         self.bullet = Image(self.screen)
         self.bullet.load_image('bullet.png')
 
+        # 효과음을 가져옵니다
         self.gunshot_sound = pygame.mixer.Sound('resources/sounds/gun-shot.mp3')
         self.ending_sound = pygame.mixer.Sound('resources/sounds/ending.mp3')
 
     def init_variable(self):
+        ''' 게임과 관련된 변수를 초기화하는 함수입니다 '''
         self.running = True
         self.cloud = None
         self.health = config.health
@@ -93,20 +99,25 @@ class GameScreen:
 
 
     def write_text(self):
+        ''' 화면에 나타낼 정보(텍스트)를 보여주는 함수입니다 '''
         text_1 = self.font.render(f'Used bullet: {self.used_bullet}', True, (0,0,0))
         self.screen.blit(text_1, (3,0))
         text_2 = self.font.render(f'Crashed missile: {self.crashed_missile}', True, (0,0,0))
         self.screen.blit(text_2, (3,text_1.get_height()))
     
     def lost_health(self):
+        ''' 생명력을 잃게 하는 함수입니다 '''
         self.health -= 1
         self.ending_sound.play()
 
     def show_health(self):
+        ''' 화면에 남은 생명력을 보여주는 함수입니다 '''
+        # 남은 생명력을 계산하고, 0이라면 게임을 종료합니다
         remaining_health = config.health-self.health
         if remaining_health == config.health:
             self.running = False
 
+        # 생명력만큼 반복해 남은 생명력을 표시합니다
         for i in range(config.health):
             if remaining_health != 0:
                 remaining_health -= 1
@@ -120,6 +131,7 @@ class GameScreen:
 
 
     def move_background(self, fps: int):
+        ''' 배경 이미지를 이동시키는 함수입니다 '''
         self.background_1.y += 0.05 * fps
         self.background_2.y += 0.05 * fps
 
@@ -129,22 +141,26 @@ class GameScreen:
             self.background_2.y = -self.background_2.height + self.background_1.y
 
     def move_cloud(self, fps: int):
+        ''' 구름 이미지를 랜덤으로 지정하고 이동시키는 함수입니다 '''
         if self.cloud == None or self.cloud.y >= config.screen_height:
             self.cloud = random.choice([self.cloud_1, self.cloud_2, self.cloud_3])
             self.cloud.y = -self.cloud.height
         self.cloud.y += 0.08 * fps
 
     def reset_missile_position(self):
+        ''' 미사일 이미지의 위치를 재설정하는 함수입니다 '''
         self.missile.y = -self.missile.height
         self.missile.x = random.randint(0, config.screen_width - self.missile.width)
 
     def move_missile(self, fps: int):
+        ''' 미사일 이미지를 이동시키는 함수입니다 '''
         self.missile.y += 0.5  * fps
         if self.missile.y >= config.screen_height:
             self.lost_health()
             self.reset_missile_position()
 
     def move_bullet(self, fps: int):
+        ''' 리스트에 저장된 총알의 좌표를 이동시키는 함수입니다 '''
         delete_list = []
         for i in range(len(self.bullet.xy_list)):
             if self.bullet.xy_list[i][1] <= 0:
@@ -156,6 +172,7 @@ class GameScreen:
             del self.bullet.xy_list[d]
     
     def move_user(self, fps: int):
+        ''' 유저 이미지의 위치를 이동시키는 함수입니다 '''
         to_x = 0
         to_y = 0
 
@@ -172,6 +189,7 @@ class GameScreen:
         self.user.x += to_x * fps
         self.user.y += to_y * fps
 
+        # 유저 이미지가 화면을 벗어나지 않도록 조정합니다
         if self.user.x >= config.screen_width - self.user.width:
             self.user.x = config.screen_width - self.user.width
         elif self.user.x <= 0:
@@ -184,6 +202,7 @@ class GameScreen:
 
 
     def check_user_crash(self):
+        ''' 유저가 미사일과 충돌했는지 확인하는 함수입니다 '''
         if self.user.get_rect().colliderect(self.missile.get_rect()):
             self.lost_health()
 
@@ -194,6 +213,7 @@ class GameScreen:
             self.reset_missile_position()
 
     def check_missile_crash(self):
+        ''' 총알 이미지와 미사일의 충돌을 확인합니다 '''
         delete_list = []
         for i in range(len(self.bullet.xy_list)):
             self.bullet.x = self.bullet.xy_list[i][0]
@@ -213,6 +233,7 @@ class GameScreen:
 
 
     def run(self):
+        ''' 스크린을 구동하는 함수입니다 '''
         while self.running:
             fps = self.clock.tick(config.frame_rate)
             for event in pygame.event.get():
@@ -220,6 +241,7 @@ class GameScreen:
                     quit()
 
                 elif event.type == pygame.KEYDOWN:
+                    # 유저를 이동하는 코드입니다
                     if event.key == pygame.K_RIGHT:
                         self.user.to_right = True
                     elif event.key == pygame.K_LEFT:
@@ -228,6 +250,7 @@ class GameScreen:
                         self.user.to_up = True
                     elif event.key == pygame.K_DOWN:
                         self.user.to_down = True
+                    # 총알을 발사하는 코드입니다
                     elif event.key == pygame.K_SPACE or event.key == pygame.K_LCTRL:
                         self.bullet.y = self.user.y + self.bullet.height
                         self.bullet.x = self.user.x + self.user.width/2 - self.bullet.width/2
@@ -245,17 +268,18 @@ class GameScreen:
                     elif event.key==pygame.K_DOWN:
                         self.user.to_down = False
 
-
+            # 이미지들을 움직입니다
             self.move_background(fps)
             self.move_cloud(fps)
             self.move_missile(fps)
             self.move_bullet(fps)
             self.move_user(fps)
 
+            # 이미지간 충돌 여부를 확인합니다
             self.check_user_crash()
             self.check_missile_crash()
 
-
+            # 이미지들과 화면 정보들을 보여줍니다
             self.background_1.show()
             self.background_2.show()
             self.cloud.show()
@@ -267,7 +291,7 @@ class GameScreen:
             self.user.show()
             self.write_text()
             self.show_health()
-            # 0.1초동안 폭발 이미지 표시
+            # 약 0.1초 동안 폭발 이미지를 표시합니다
             if self.explode.is_show:
                 self.explode.count += 1
                 self.explode.show()
@@ -275,5 +299,5 @@ class GameScreen:
                     self.explode.count = 0
                     self.explode.is_show = False
 
-
+            # 화면을 업데이트 합니다
             pygame.display.update()
