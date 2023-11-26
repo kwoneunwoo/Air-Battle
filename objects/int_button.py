@@ -4,7 +4,7 @@ from config import Color
 
 
 class IntButton:
-    def __init__(self, screen, num, min_num: int, max_num: int) -> None:
+    def __init__(self, screen, num: int, min_num: int, max_num: int) -> None:
         self.screen = screen
         
         self.num = num

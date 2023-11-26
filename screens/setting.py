@@ -26,7 +26,7 @@ class SettingScreen:
             is_bgm_playing = True
         self.bgm_btn = ToggleButton(self.screen, is_bgm_playing, 80, 80)
         self.air_btn = ToggleButton(self.screen, config.air_resistance, 80, 80)
-        self.health_btn = IntButton(self.screen, config.health, 1, 5)
+        self.health_btn = IntButton(self.screen, config.health, 1, 99)
 
         self.btn_list = [self.exit_btn, self.bgm_btn, self.air_btn, self.health_btn]
 

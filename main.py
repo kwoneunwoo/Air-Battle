@@ -47,5 +47,7 @@ while ending_screen.restart:
         setting_screen.run()
         continue
     game_screen.init_variable()
+    pygame.mouse.set_visible(False)
     game_screen.run()
+    pygame.mouse.set_visible(True)
     ending_screen.run()

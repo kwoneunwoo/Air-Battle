@@ -77,7 +77,7 @@ class GameScreen:
         self.used_bullet = 0
         self.crashed_missile = 0
     
-        for i in range(1, config.health+1):
+        for i in range(1, 4):
             self.filled_heart.xy_list.append((config.screen_width-self.filled_heart.width*i-10*i, 10))
             
         self.background_1.y = 0
@@ -113,22 +113,32 @@ class GameScreen:
 
     def show_health(self):
         ''' 화면에 남은 생명력을 보여주는 함수입니다 '''
-        # 남은 생명력을 계산하고, 0이라면 게임을 종료합니다
-        remaining_health = config.health-self.health
-        if remaining_health == config.health:
+        # 남은 생명력이 0이라면 게임을 종료합니다
+        if self.health <= 0:
             self.running = False
 
-        # 생명력만큼 반복해 남은 생명력을 표시합니다
-        for i in range(config.health):
-            if remaining_health != 0:
-                remaining_health -= 1
-                self.empty_heart.x = self.filled_heart.xy_list[i][0]
-                self.empty_heart.y = self.filled_heart.xy_list[i][1]
-                self.empty_heart.show()
-            else:
-                self.filled_heart.x = self.filled_heart.xy_list[i][0]
-                self.filled_heart.y = self.filled_heart.xy_list[i][1]
-                self.filled_heart.show()
+        # 남은 생명력을 표시하며 4개 이상이라면 숫자로 표현합니다
+        if self.health < 4:
+            remaining_health = 3-self.health
+            for i in range(3):
+                if remaining_health != 0:
+                    remaining_health -= 1
+                    self.empty_heart.x = self.filled_heart.xy_list[i][0]
+                    self.empty_heart.y = self.filled_heart.xy_list[i][1]
+                    self.empty_heart.show()
+                else:
+                    self.filled_heart.x = self.filled_heart.xy_list[i][0]
+                    self.filled_heart.y = self.filled_heart.xy_list[i][1]
+                    self.filled_heart.show()
+        else:
+            self.filled_heart.x = self.filled_heart.xy_list[1][0]
+            self.filled_heart.y = self.filled_heart.xy_list[1][1]
+            self.filled_heart.show()
+
+            text = self.font.render(f'X{self.health}', True, config.Color.black)
+            text_x = self.filled_heart.xy_list[0][0]
+            text_y = self.filled_heart.xy_list[0][1]+self.filled_heart.height/2-text.get_height()/2
+            self.screen.blit(text, (text_x, text_y))
 
 
     def move_background(self, fps: int):
