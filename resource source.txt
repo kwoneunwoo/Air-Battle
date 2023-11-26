@@ -1,5 +1,6 @@
 글꼴
-https://neodgm.dalgona.dev/downloads/neodgm.html
+- https://neodgm.dalgona.dev/downloads/neodgm.html
+- https://fonts.google.com/specimen/Black+Han+Sans
 
 이미지
 총알: https://m.blog.naver.com/samsjang/220707391932

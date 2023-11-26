@@ -3,7 +3,7 @@ import pygame
 from config import Color
 
 
-class SquareButton():
+class SquareButton:
     def __init__(self,
                  screen,
                  x: int, y: int,
