@@ -24,8 +24,8 @@ pygame.display.set_caption('Air Battle')
 
 
 # 노래 재생
-# pygame.mixer.music.load('resources/sounds/stranger-things.mp3')
-# pygame.mixer.music.play(-1)
+pygame.mixer.music.load('resources/sounds/stranger-things.mp3')
+pygame.mixer.music.play(-1)
 
 
 # 스크린 선언
@@ -45,6 +45,7 @@ while ending_screen.restart:
     start_screen.run()
     if start_screen.msg == 'setting':
         setting_screen.run()
-    # game_screen.init_variable()
-    # game_screen.run()
-    # ending_screen.run()
+        continue
+    game_screen.init_variable()
+    game_screen.run()
+    ending_screen.run()

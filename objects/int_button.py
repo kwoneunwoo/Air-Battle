@@ -53,7 +53,7 @@ class IntButton:
 
             rect = pygame.Rect(x, self.y, self.width, self.height)
             if i == self.collide_point_num:
-                pygame.draw.rect(self.screen, Color.white, rect)
+                pygame.draw.rect(self.screen, Color.bright_gray, rect)
             elif i != 2:
                 pygame.draw.rect(self.screen, Color.gray, rect)
 

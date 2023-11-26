@@ -20,11 +20,12 @@ class SettingScreen:
         self.exit_btn.change_size(50, 50)
         self.exit_btn.x = config.screen_width-self.exit_btn.width/3*4
 
-        # self.on_btn = SquareButton(self.screen, x=80, y=80, text='test',
-        #                            color=Color.green, focused_color=Color.bright_green)
-
-        self.bgm_btn = ToggleButton(self.screen, False, 80, 80)
-        self.air_btn = ToggleButton(self.screen, False, 80, 80)
+        # 배경음악 재생 여부에 따른 버튼 설정
+        is_bgm_playing = False
+        if pygame.mixer.music.get_busy():
+            is_bgm_playing = True
+        self.bgm_btn = ToggleButton(self.screen, is_bgm_playing, 80, 80)
+        self.air_btn = ToggleButton(self.screen, config.air_resistance, 80, 80)
         self.health_btn = IntButton(self.screen, config.health, 1, 5)
 
         self.btn_list = [self.exit_btn, self.bgm_btn, self.air_btn, self.health_btn]
@@ -42,15 +43,20 @@ class SettingScreen:
                     if event.key == pygame.K_SPACE:
                         running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
+                    # 마우스 우클릭시 버튼 누름 확인 및 작동
                     if event.button == 1:
                         if self.exit_btn.mouse_over():
                             running = False
                         elif self.bgm_btn.mouse_over():
-                            self.bgm_btn.clicked()
+                            bgm_play = self.bgm_btn.clicked()
+                            if bgm_play == False:
+                                pygame.mixer.music.pause()
+                            else:
+                                pygame.mixer.music.unpause()
                         elif self.air_btn.mouse_over():
-                            self.air_btn.clicked()
+                            config.air_resistance = self.air_btn.clicked()
                         elif self.health_btn.mouse_over():
-                            self.health_btn.clicked()
+                            config.health = self.health_btn.clicked()
 
 
             # 버튼과 마우스가 겹치는지 여부에 따라 커서를 변경합니다
@@ -77,7 +83,7 @@ class SettingScreen:
             # 중앙, 1/3 격차
             self.screen.blit(text, (config.screen_width/2-text.get_width()/2, screen_y))
 
-            # 텍스트의 중간부분
+            # 텍스트의 세로 중간부분
             self.exit_btn.y = screen_y+text.get_height()/2-self.exit_btn.height/2
             self.exit_btn.show()
             screen_y += text.get_height() + 30
@@ -113,6 +119,7 @@ class SettingScreen:
             text = self.setting_font.render('생명력', True, Color.white)
             self.screen.blit(text, (30, screen_y))
 
+            # 화면의 중앙
             self.health_btn.x = config.screen_width/2-self.health_btn.width*5/2-self.health_btn.margin*4/2
             self.health_btn.y = screen_y+text.get_height()+10
             self.health_btn.show()

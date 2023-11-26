@@ -15,7 +15,8 @@ air_resistance = False
 ## [[ Color Configure]] ##
 class Color:
     black = (0,0,0)
-    gray = (100,100,100)
+    gray = (128,128,128)
+    bright_gray = (160,160,160)
     white = (255,255,255)
     red = (200,0,0)
     bright_red = (255,0,0)

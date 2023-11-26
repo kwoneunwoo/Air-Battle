@@ -24,6 +24,7 @@ class StartScreen:
 
     def run(self):
         ''' 스크린을 구동하는 함수입니다 '''
+        self.msg = ''
         running = True
         while running:
             self.clock.tick(config.frame_rate)

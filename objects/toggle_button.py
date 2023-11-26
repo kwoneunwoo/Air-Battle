@@ -18,6 +18,7 @@ class ToggleButton:
 
         self.color = None
         self.focused_color = None
+        # 최초 색 지정을 위한 함수 호출
         self.is_on = not self.is_on
         self.clicked()
 

@@ -41,8 +41,6 @@ class GameScreen:
         self.filled_heart.load_image('filled-heart.png')
         self.filled_heart.change_size(40, 40)
         self.filled_heart.xy_list = []
-        for i in range(1, config.health+1):
-            self.filled_heart.xy_list.append((config.screen_width-self.filled_heart.width*i-10*i, 10))
 
         self.empty_heart = Image(self.screen)
         self.empty_heart.load_image('empty-heart.png')
@@ -79,6 +77,9 @@ class GameScreen:
         self.used_bullet = 0
         self.crashed_missile = 0
     
+        for i in range(1, config.health+1):
+            self.filled_heart.xy_list.append((config.screen_width-self.filled_heart.width*i-10*i, 10))
+            
         self.background_1.y = 0
         self.background_2.y = -self.background_2.height
 
@@ -210,7 +211,8 @@ class GameScreen:
             self.explode.x = self.user.x + self.user.width/2 - self.explode.width/2
             self.explode.y = self.user.y - self.explode.height/2
             
-            self.reset_missile_position()
+            if self.health > 0:
+                self.reset_missile_position()
 
     def check_missile_crash(self):
         ''' 총알 이미지와 미사일의 충돌을 확인합니다 '''
