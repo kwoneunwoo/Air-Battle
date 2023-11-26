@@ -304,8 +304,6 @@ class GameScreen:
                 self.bullet.show()
             self.missile.show()
             self.user.show()
-            self.write_text()
-            self.show_health()
             # 약 0.1초 동안 폭발 이미지를 표시합니다
             if self.explode.is_show:
                 self.explode.count += 1
@@ -313,6 +311,8 @@ class GameScreen:
                 if self.explode.count >= config.frame_rate/10:
                     self.explode.count = 0
                     self.explode.is_show = False
+            self.write_text()
+            self.show_health()
 
             # 화면을 업데이트 합니다
             pygame.display.update()
