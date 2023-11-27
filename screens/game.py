@@ -183,7 +183,7 @@ class GameScreen:
 
     def move_missile(self, fps: int):
         ''' 미사일 이미지를 이동시키는 함수입니다 '''
-        self.missile.y += 0.5  * fps
+        self.missile.y += 0.5 * fps
         if self.missile.y >= config.screen_height:
             self.lost_health()
             self.reset_missile_position()
@@ -239,8 +239,9 @@ class GameScreen:
             self.lost_health()
 
             self.explode.is_show = True
-            self.explode.x = self.user.x + self.user.width/2 - self.explode.width/2
-            self.explode.y = self.user.y - self.explode.height/2
+            rect = self.user.get_rect().clip(self.missile.get_rect())
+            self.explode.x = rect.x + rect.width/2 - self.explode.width/2
+            self.explode.y = rect.y + rect.height/2 - self.explode.height/2
             
             if self.health > 0:
                 self.reset_missile_position()
@@ -255,8 +256,8 @@ class GameScreen:
                 del self.bullet.xy_list[i]
 
                 self.explode.is_show = True
-                self.explode.x = self.missile.x + self.missile.width/2 - self.explode.width/2
-                self.explode.y = self.missile.y + self.missile.height - self.explode.height/2
+                self.explode.x = self.bullet.x + self.bullet.width/2 - self.explode.width/2
+                self.explode.y = self.bullet.y - self.explode.height/2
 
                 self.reset_missile_position()
                 break
