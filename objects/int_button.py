@@ -42,6 +42,11 @@ class IntButton:
         num = self.num+text_list[self.collide_point_num]
         if self.min_num <= num <= self.max_num:
             self.num = num
+        else:
+            if self.collide_point_num == 0:
+                self.num = self.min_num
+            elif self.collide_point_num == len(text_list)-1:
+                self.num = self.max_num
         return self.num
 
     def show(self):
