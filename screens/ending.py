@@ -43,7 +43,7 @@ class EndingScreen:
 
             # 텍스트를 정의합니다
             gameover_text = self.font.render('GAME OVER', True, config.Color.red)
-            best_text = self.small_text.render(f'Best Score: {self.best_score}', True, config.Color.white)
+            best_text = self.small_text.render(f'Best Score: {str(self.best_score).rjust(5," ")+" "*2}', True, config.Color.white)
             playtime_text = self.small_text.render(f'Playtime: {self.playtime}', True, config.Color.white)
             accuracy_text = self.small_text.render(f'Accuracy: {self.accuracy:.3f}', True, config.Color.white)
             reset_text = self.small_text.render('Press r to restart', True, config.Color.white)
@@ -57,10 +57,10 @@ class EndingScreen:
 
             # 텍스트의 y값을 설정합니다
             gameover_text_y = 0
-            best_text_y = gameover_text_y+gameover_text.get_height()+text_margin*2
+            best_text_y = gameover_text_y+gameover_text.get_height()+text_margin
             playtime_text_y = best_text_y+best_text.get_height()+text_margin
             accuracy_text_y = playtime_text_y+playtime_text.get_height()+text_margin
-            reset_text_y = accuracy_text_y+accuracy_text.get_height()+text_margin*2
+            reset_text_y = accuracy_text_y+accuracy_text.get_height()+text_margin*3
 
 
             # 텍스트의 높이와 y값을 계산합니다
