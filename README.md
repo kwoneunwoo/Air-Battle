@@ -14,7 +14,7 @@ Python game which made with the pygame module.
 - pygame 2.5.2
 ```
 
-# 조작 설명
+# 조작 방법
 - main.py를 실행합니다.
 - 시작 화면
     - `스페이스 키`를 누를시 시작됩니다.
