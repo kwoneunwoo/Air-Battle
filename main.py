@@ -43,11 +43,26 @@ for _screen in [start_screen, setting_screen, game_screen, ending_screen]:
 # 실행
 while ending_screen.restart:
     start_screen.run()
+
+    # 세팅 화면에 진입합니다
     if start_screen.msg == 'setting':
         setting_screen.run()
+        # 세팅이 종료된 후 반복문을 재실행합니다
         continue
+
+    # 게임 화면의 변수를 초기화합니다
     game_screen.init_variable()
+    # 마우스 커서가 안보이게 설정합니다
     pygame.mouse.set_visible(False)
     game_screen.run()
+    # 마우스 커서가 보이게 설정합니다
     pygame.mouse.set_visible(True)
+
+    # 필요한 정보를 넘겨주고 엔딩 화면을 실행합니다
+    ending_screen.best_score = game_screen.best_score
+    ending_screen.playtime = game_screen.playtime
+    if game_screen.used_bullet == 0:
+        ending_screen.accuracy = 0
+    else:
+        ending_screen.accuracy = game_screen.crashed_missile/game_screen.used_bullet
     ending_screen.run()

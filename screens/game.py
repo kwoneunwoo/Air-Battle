@@ -10,6 +10,9 @@ class GameScreen:
         self.screen = screen
         self.clock = clock
 
+        self.best_score = 0
+        self.playtime = None
+
     def load_resource(self):
         ''' 스크린에 필요한 자원을 가져오는 함수입니다 '''
         self.font = pygame.font.Font('resources/fonts/neodgm.ttf', 30)
@@ -102,10 +105,24 @@ class GameScreen:
 
     def write_text(self):
         ''' 화면에 나타낼 정보(텍스트)를 보여주는 함수입니다 '''
-        text_1 = self.font.render(f'Used bullet: {self.used_bullet}', True, (0,0,0))
+        self.best_score = max(self.best_score, self.crashed_missile)
+        text_1 = self.font.render(f'Best score: {self.best_score}', True, (0,0,0))
         self.screen.blit(text_1, (3,0))
-        text_2 = self.font.render(f'Crashed missile: {self.crashed_missile}', True, (0,0,0))
+        text_2 = self.font.render(f'Used bullet: {self.used_bullet}', True, (0,0,0))
         self.screen.blit(text_2, (3,text_1.get_height()))
+        text_3 = self.font.render(f'Crashed missile: {self.crashed_missile}', True, (0,0,0))
+        self.screen.blit(text_3, (3,text_1.get_height()+text_2.get_height()))
+
+    def write_time(self, start_ticks: int):
+        ''' 화면에 게임 시간을 보여주는 함수입니다 '''
+        game_sec = int((pygame.time.get_ticks()-start_ticks)/1000)
+        game_time_min = str( (game_sec%3600)//60 ).zfill(2)
+        game_time_sec = str( game_sec%60 ).zfill(2)
+        self.playtime = f'{game_time_min}:{game_time_sec}'
+
+        text = self.font.render(self.playtime, True, (0,0,0))
+        self.screen.blit(text, (config.screen_width-text.get_width()-3,
+                                config.screen_height-text.get_height()))
     
     def lost_health(self):
         ''' 생명력을 잃게 하는 함수입니다 '''
@@ -247,6 +264,7 @@ class GameScreen:
 
     def run(self):
         ''' 스크린을 구동하는 함수입니다 '''
+        start_ticks=pygame.time.get_ticks()
         while self.running:
             fps = self.clock.tick(config.frame_rate)
             for event in pygame.event.get():
@@ -312,6 +330,7 @@ class GameScreen:
                     self.explode.count = 0
                     self.explode.is_show = False
             self.write_text()
+            self.write_time(start_ticks)
             self.show_health()
 
             # 화면을 업데이트 합니다
