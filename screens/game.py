@@ -232,7 +232,10 @@ class GameScreen:
 
     def check_user_crash(self):
         ''' 유저가 미사일과 충돌했는지 확인하는 함수입니다 '''
-        if self.user.get_rect().colliderect(self.missile.get_rect()):
+        offset_x = self.missile.x - self.user.x
+        offset_y = self.missile.y - self.user.y
+
+        if self.user.get_mask().overlap(self.missile.get_mask(), (offset_x, offset_y)):
             self.lost_health()
 
             self.explode.is_show = True
@@ -243,23 +246,20 @@ class GameScreen:
                 self.reset_missile_position()
 
     def check_missile_crash(self):
-        ''' 총알 이미지와 미사일의 충돌을 확인합니다 '''
-        delete_list = []
+        ''' 총알 이미지와 미사일의 충돌을 확인하는 함수입니다 '''
         for i in range(len(self.bullet.xy_list)):
             self.bullet.x = self.bullet.xy_list[i][0]
             self.bullet.y = self.bullet.xy_list[i][1]
             if self.missile.get_rect().colliderect(self.bullet.get_rect()):
-                delete_list.append(i)
+                self.crashed_missile += 1
+                del self.bullet.xy_list[i]
 
                 self.explode.is_show = True
                 self.explode.x = self.missile.x + self.missile.width/2 - self.explode.width/2
                 self.explode.y = self.missile.y + self.missile.height - self.explode.height/2
 
                 self.reset_missile_position()
-
-        for d in delete_list[::-1]:
-            self.crashed_missile += 1
-            del self.bullet.xy_list[d]
+                break
 
 
     def run(self):

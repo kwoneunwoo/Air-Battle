@@ -36,6 +36,10 @@ class Image:
     #     self.img = pygame.transform.rotate(self.img, angle)
     #     self.__set_size__()
 
+    def get_mask(self) -> pygame.Mask:
+        ''' 이미지의 Mask 객체를 반환하는 함수 '''
+        return pygame.mask.from_surface(self.img)
+
     def get_rect(self) -> pygame.Rect:
         ''' 이미지의 Rect 객체를 반환하는 함수 '''
         rect = self.img.get_rect()
