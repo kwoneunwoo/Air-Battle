@@ -1,4 +1,5 @@
 import pygame
+import webbrowser
 
 import config
 from config import Color
@@ -21,6 +22,13 @@ class StartScreen:
         self.setting_btn.x = config.screen_width - self.setting_btn.width/3 *4
         self.setting_btn.y = self.setting_btn.height/3
 
+        self.github_btn = ImageButton(self.screen, True)
+        self.github_btn.load_image('github.png')
+        self.github_btn.x = config.screen_width/2 - self.github_btn.width/2
+        self.github_btn.y = config.screen_height - self.github_btn.height
+
+        self.btn_list = [self.setting_btn, self.github_btn]
+
 
     def run(self):
         ''' 스크린을 구동하는 함수입니다 '''
@@ -35,15 +43,26 @@ class StartScreen:
                     if event.key == pygame.K_SPACE:
                         running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1 and self.setting_btn.mouse_over():
-                        self.msg = 'setting'
-                        running = False
+                    if event.button == 1:
+                        if self.setting_btn.mouse_over():
+                            self.msg = 'setting'
+                            running = False
+                        elif self.github_btn.mouse_over():
+                            webbrowser.open('https://github.com/kwoneunwoo/Air-Battle')
+
 
             # 버튼과 마우스가 겹치는지 여부에 따라 커서를 변경합니다
-            if self.setting_btn.mouse_over():
+            mouse_over = False
+            for btn in self.btn_list:
+                if btn.mouse_over():
+                    mouse_over = True
+                    break
+
+            if mouse_over:
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
             else:
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
 
             # 배경색을 채웁니다
             self.screen.fill(Color.black)
@@ -65,6 +84,8 @@ class StartScreen:
 
             # 버튼을 보여줍니다
             self.setting_btn.show()
+            self.github_btn.show()
+
 
             # 화면을 업데이트 합니다
             pygame.display.update()

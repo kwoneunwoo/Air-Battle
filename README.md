@@ -7,7 +7,7 @@ Python game which made with the pygame module.
 파이썬에서 폴더를 기준으로 파일을 분리하여 라이브러리를 만드는 방법 또한 알게되었습니다.
 
 # 실행 방법
-현재 프로젝트에서는 내장 모듈인 os와 pygame만 사용하여 외부 모듈 다운로드 없이 즉시 실행 가능합니다.
+현재 프로젝트에서는 내장 모듈인 os와 pygame, webbrowser만 사용하여 외부 모듈 다운로드 없이 즉시 실행 가능합니다.
 다만 현 프로젝트는 main 브런치 하나만 사용하고 있으므로 레포지토리의
 **[Releases](https://github.com/kwoneunwoo/Air-Battle/releases)에서 최신 버전을 다운로드하는 것을 권장**합니다. 
 
